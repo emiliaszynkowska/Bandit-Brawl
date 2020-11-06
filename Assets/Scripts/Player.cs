@@ -6,56 +6,25 @@ using UnityEngine;
 //Inherits from Character class
 public class Player : Character
 {
-    Rigidbody2D body;
     public Camera cam;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        jumpsRemaining = doubleJumpsCount;
-        body = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        LoadCharacter();
     }
+
 
     // Update is called once per frame
     void Update()
     {
         GroundCheck();
         PlayerJump();
+        PlayerAttack();
     }
 
-    void GroundCheck()
-    {
-        if (Time.time < lastJumpTime + jumpCooldown) return;
-        isGrounded = Physics2D.Raycast(body.position, Vector2.down, groundDistance ,collisionMask);
-        Debug.DrawRay(body.position, Vector3.down* groundDistance, Color.green, 0);
-        Debug.Log(isGrounded);
-        if (isGrounded)
-        {
-            AnimateGrounded();
-            jumpsRemaining = doubleJumpsCount;
-        }
-        else
-        {
-            AnimateJump();
-        }
-    }
-
-    private void AnimateGrounded()
-    {
-        animator.SetBool("Grounded", true);
-        animator.SetFloat("AirSpeed", 0);
-    }
-
-    private void AnimateJump()
-    {
-        animator.SetBool("Grounded", false);
-        animator.SetBool("Jump", true);
-        animator.SetFloat("AirSpeed", body.velocity.magnitude);
-    }
-
+    // FixedUpdate is called for physics
     private void FixedUpdate()
     {
         CameraFollow();
@@ -68,22 +37,17 @@ public class Player : Character
         float verticalmove = Input.GetAxis("Vertical");
         if (horizontalmove > 0)
         {
-            body.velocity = new Vector2(moveSpeed,body.velocity.y);
-            sprite.flipX = true;
-            animator.SetInteger("AnimState", 2);
+            MoveRight();
         }
         if (horizontalmove < 0)
         {
-            body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-            sprite.flipX = false;
-            animator.SetInteger("AnimState", 2);
+            MoveLeft();
         }
         else if (horizontalmove == 0)
         {
             animator.SetInteger("AnimState", 0);
+            body.velocity = new Vector2(body.velocity.x * 0.9f, body.velocity.y);
         }
-        
-
     }
 
     void CameraFollow()
@@ -93,11 +57,13 @@ public class Player : Character
 
     void PlayerJump()
     {
-        if (jumpsRemaining>0 && Input.GetButtonDown("Jump") && Time.time > lastJumpTime + jumpCooldown)
-        {
-            lastJumpTime = Time.time;
-            body.velocity = new Vector2(body.velocity.x, jumpSpeed);
-            jumpsRemaining--;
-        }
+        if (Input.GetButtonDown("Jump")) 
+            Jump();
+    }
+    
+    void PlayerAttack()
+    {
+        if (Input.GetButtonDown("Fire1"))
+            Attack();
     }
 }
