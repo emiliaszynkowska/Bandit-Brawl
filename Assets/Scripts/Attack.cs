@@ -11,6 +11,8 @@ public abstract class Attack : MonoBehaviour
     public bool isAttacking = false;
 
     public abstract void StartAttack();
+    public abstract bool CanAttack();
+
     public void LookLeft()
     {
         transform.localScale = leftScale;
