@@ -9,24 +9,32 @@ public abstract class Character : MonoBehaviour
     protected const float groundDistance = 0.6f;
     protected const int doubleJumpsCount = 1;
 
+
     //public variables
-    public float health;
-    public float maxHealth;
-    public float moveSpeed;
+    public float health = 100;
+    public float maxHealth = 100;
+    public float moveSpeed = 0.5f;
     public float maxCharacterSpeed = 5;
-    public float jumpSpeed;
-    public float jumpCooldown;
+    public float jumpSpeed = 14;
+    public float jumpCooldown = 0.3f;
+    public float blockCooldown = 3;
     public Attack attackObject;
     public HUD hud;
+    public GameObject slamParticles;
 
     //protected variables
-    protected float lastJumpTime;
+    protected float lastJumpTime = -10;
+    protected float lastBlockTime = -10;
     protected SpriteRenderer sprite;
     protected bool isGrounded = true;
+    protected bool isBlocking = false;
     protected bool canMove = true;
     [SerializeField] protected LayerMask collisionMask;
     protected int doubleJumpsRemaining;
     protected Animator animator;
+    protected Vector2 slamSize = new Vector2(4, 2);
+    protected float slamKnockback = 15;
+    protected float slamDamage = 5f;
 
 
     protected Rigidbody2D body;
@@ -44,7 +52,7 @@ public abstract class Character : MonoBehaviour
 
     protected void GroundCheck()
     {
-        if (Time.time < lastJumpTime + jumpCooldown || attackObject.isAttacking) return;
+        if (Time.time < lastJumpTime + jumpCooldown ) return; ;
         isGrounded = Physics2D.Raycast(body.position, Vector2.down, groundDistance, collisionMask);
         Debug.DrawRay(body.position, Vector3.down * groundDistance, Color.green, 0);
         if (isGrounded)
@@ -60,7 +68,7 @@ public abstract class Character : MonoBehaviour
 
     protected void MoveLeft()
     {
-        if (attackObject.isAttacking || !canMove) return;
+        if (attackObject.isAttacking || !canMove || isBlocking) return;
         if (body.velocity.x > -maxCharacterSpeed) body.velocity = new Vector2(-moveSpeed+body.velocity.x, body.velocity.y);
         if (body.velocity.x < -maxCharacterSpeed) body.velocity = new Vector2(-maxCharacterSpeed, body.velocity.y);
         sprite.flipX = false;
@@ -70,7 +78,7 @@ public abstract class Character : MonoBehaviour
 
     protected void MoveRight()
     {
-        if (attackObject.isAttacking || !canMove) return;
+        if (attackObject.isAttacking || !canMove || isBlocking) return;
         if (body.velocity.x < maxCharacterSpeed) body.velocity = new Vector2(moveSpeed+body.velocity.x, body.velocity.y);
         if (body.velocity.x > maxCharacterSpeed) body.velocity = new Vector2(maxCharacterSpeed, body.velocity.y);
         sprite.flipX = true;
@@ -97,14 +105,81 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Attack()
     {
-        if (attackObject.isAttacking || !canMove) return;
-        AnimateAttack();
-        attackObject.StartAttack();
+        if (attackObject.isAttacking || !canMove || isBlocking) return;
+        if (!isGrounded && body.velocity.y < 0)
+        {
+            AirAttack();
+        }
+        else
+        {
+            AnimateAttack();
+            attackObject.StartAttack();
+        }
+        
     }
 
+    public virtual void AirAttack()
+    {
+        //AnimateJump();
+        attackObject.isAttacking = true;
+        StartCoroutine(Slam());
+    }
+
+    IEnumerator Slam()
+    {
+        while (!isGrounded)
+        {
+            body.velocity = new Vector2(0, -jumpSpeed*1.5f);
+            yield return null;
+        }
+        yield return null;
+        Instantiate(slamParticles, transform);
+        Collider2D[] results = new Collider2D[8];
+        results = Physics2D.OverlapBoxAll(transform.position,slamSize,0);
+        foreach (Collider2D col in results)
+        {
+            if (col != null)
+            {
+                Character c = col.gameObject.GetComponent<Character>();
+                if (c != null && !c.Equals(this))
+                {
+                    c.TakeDamage(slamDamage);
+                    c.TakeKnockback(transform.position, slamKnockback);
+                }
+            }
+        }
+        lastJumpTime = Time.time;
+        yield return new WaitForSeconds(jumpCooldown);
+        attackObject.isAttacking = false;
+    }
+
+    public virtual void StartBlock()
+    {
+        if (attackObject.isAttacking || !canMove) return;
+        if (Time.time > lastBlockTime + blockCooldown)
+        {
+            isBlocking = true;
+            AnimateStay();
+        }
+        else
+        {
+            isBlocking = false;
+        }
+
+    }
+
+    public virtual void EndBlock()
+    {
+        if (!isBlocking) return;
+        isBlocking = false;
+        AnimateStay();
+    }
+
+    
     public void TakeDamage(float damage)
     {
-        health -= damage;
+        if (!isBlocking) health -= damage;
+        lastBlockTime = Time.time;
         AnimateHurt();
         UpdateHUD();
         if (health <=0)
@@ -152,6 +227,17 @@ public abstract class Character : MonoBehaviour
         animator.SetBool("Attack", true);
         animator.SetBool("Grounded", true);
     }
+
+    protected virtual void AnimateStay()
+    {
+        animator.SetInteger("AnimState", 0);
+        if (isBlocking)
+        {
+            animator.SetInteger("AnimState", 1);
+            animator.SetBool("Grounded", true);
+        }
+    }
+
 
     protected virtual void AnimateHurt()
     {

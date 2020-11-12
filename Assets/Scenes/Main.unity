@@ -15619,9 +15619,11 @@ MonoBehaviour:
   moveSpeed: 0.5
   maxCharacterSpeed: 5
   jumpSpeed: 14
-  jumpCooldown: 0.4
+  jumpCooldown: 0.3
+  blockCooldown: 3
   attackObject: {fileID: 633751606}
   hud: {fileID: 866744360}
+  slamParticles: {fileID: 5862833977459595718, guid: c39f9ac9624f20f4394179b14a856fce, type: 3}
   collisionMask:
     serializedVersion: 2
     m_Bits: 320
@@ -16840,12 +16842,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  moveSpeed: 7
+  moveSpeed: 0.5
   maxCharacterSpeed: 5
   jumpSpeed: 14
-  jumpCooldown: 0.4
+  jumpCooldown: 0.3
+  blockCooldown: 3
   attackObject: {fileID: 1326477842}
   hud: {fileID: 988261240}
+  slamParticles: {fileID: 5862833977459595718, guid: c39f9ac9624f20f4394179b14a856fce, type: 3}
   collisionMask:
     serializedVersion: 2
     m_Bits: 320

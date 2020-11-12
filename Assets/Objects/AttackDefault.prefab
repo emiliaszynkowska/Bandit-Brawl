@@ -78,7 +78,7 @@ MonoBehaviour:
   isAttacking: 0
   attackTime: 0.2
   attackCooldown: 0.2
-  attackKnockback: 20
+  attackKnockback: 25
   contactFilter:
     useTriggers: 1
     useLayerMask: 1

@@ -3,7 +3,10 @@ guid: acfe3d7fb66e95743b52a93f6a324fad
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - attackObject: {instanceID: 0}
+  - hud: {instanceID: 0}
+  - slamParticles: {fileID: 5862833977459595718, guid: c39f9ac9624f20f4394179b14a856fce, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

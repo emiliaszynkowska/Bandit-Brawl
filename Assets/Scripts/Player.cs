@@ -21,6 +21,7 @@ public class Player : Character
         GroundCheck();
         PlayerJump();
         PlayerAttack();
+        PlayerBlock();
     }
 
     // FixedUpdate is called for physics
@@ -44,7 +45,7 @@ public class Player : Character
         }
         else if (horizontalmove == 0)
         {
-            animator.SetInteger("AnimState", 0);
+            AnimateStay();
             body.velocity = new Vector2(body.velocity.x * 0.9f, body.velocity.y);
         }
     }
@@ -64,5 +65,13 @@ public class Player : Character
     {
         if (Input.GetButtonDown("Fire1"))
             Attack();
+    }
+
+    void PlayerBlock()
+    {
+        if (Input.GetButton("Fire2"))
+            StartBlock();
+        else
+            EndBlock();
     }
 }

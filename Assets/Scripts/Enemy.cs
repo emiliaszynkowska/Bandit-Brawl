@@ -21,6 +21,7 @@ public class Enemy : Character
     {
         //enemy does stuff here idk
         body.velocity = new Vector2(body.velocity.x * 0.9f, body.velocity.y);
-        animator.SetInteger("AnimState", 0);
+        AnimateStay();
+        StartBlock();
     }
 }
