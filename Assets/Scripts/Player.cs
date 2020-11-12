@@ -2,15 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Inherits from Character class
 public class Player : Character
 {
     public Camera cam;
+    public Image fadeImage;
 
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine("FadeIn");
         LoadCharacter();
     }
 
@@ -22,6 +25,7 @@ public class Player : Character
         PlayerJump();
         PlayerAttack();
         PlayerBlock();
+        LowHealthCheck();
     }
 
     // FixedUpdate is called for physics
@@ -39,6 +43,7 @@ public class Player : Character
         {
             MoveRight();
         }
+
         if (horizontalmove < 0)
         {
             MoveLeft();
@@ -57,15 +62,16 @@ public class Player : Character
 
     void PlayerJump()
     {
-        if (Input.GetButtonDown("Jump")) 
+        if (Input.GetButtonDown("Jump"))
             Jump();
     }
-    
+
     void PlayerAttack()
     {
         if (Input.GetButtonDown("Fire1"))
             Attack();
     }
+
 
     void PlayerBlock()
     {
@@ -73,5 +79,20 @@ public class Player : Character
             StartBlock();
         else
             EndBlock();
+    }
+
+    void LowHealthCheck()
+    {
+        if (health <= 20)
+            if (hud != null)
+                hud.LowHealth();
+    }
+    
+    IEnumerator FadeIn()
+    {
+        fadeImage.color = Color.black;
+        fadeImage.canvasRenderer.SetAlpha(1.0f);
+        fadeImage.CrossFadeAlpha(0.0f, 1, false);
+        yield return new WaitForSeconds(2);
     }
 }

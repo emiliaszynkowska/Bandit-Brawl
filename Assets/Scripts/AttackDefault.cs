@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class AttackDefault : Attack
 {
-
     public float attackTime;
     public float attackCooldown;
     public float attackKnockback;
-
 
     public ContactFilter2D contactFilter;
     

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     public Image healthbar;
+    public GameObject lowHealth;
     float current;
     float max;
 
@@ -31,5 +32,10 @@ public class HUD : MonoBehaviour
     public void SetMax(float newmax)
     {
         max = newmax;
+    }
+
+    public void LowHealth()
+    {
+        lowHealth.gameObject.SetActive(true);
     }
 }

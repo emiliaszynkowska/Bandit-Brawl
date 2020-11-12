@@ -36,10 +36,7 @@ public abstract class Character : MonoBehaviour
     protected float slamKnockback = 15;
     protected float slamDamage = 5f;
 
-
     protected Rigidbody2D body;
-
-
 
     protected void LoadCharacter()//call in the Start function
     {
