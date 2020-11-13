@@ -8,12 +8,10 @@ using UnityEngine.UI;
 public class Player : Character
 {
     public Camera cam;
-    public Image fadeImage;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("FadeIn");
         LoadCharacter();
     }
 
@@ -88,11 +86,4 @@ public class Player : Character
                 hud.LowHealth();
     }
     
-    IEnumerator FadeIn()
-    {
-        fadeImage.color = Color.black;
-        fadeImage.canvasRenderer.SetAlpha(1.0f);
-        fadeImage.CrossFadeAlpha(0.0f, 1, false);
-        yield return new WaitForSeconds(2);
-    }
 }
