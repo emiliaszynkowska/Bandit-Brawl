@@ -13,6 +13,7 @@ public class Player : Character
     void Start()
     {
         LoadCharacter();
+        sound.PlayMusic();
     }
 
 

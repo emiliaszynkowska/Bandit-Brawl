@@ -35,6 +35,7 @@ public abstract class Character : MonoBehaviour
     protected Vector2 slamSize = new Vector2(4, 2);
     protected float slamKnockback = 15;
     protected float slamDamage = 5f;
+    [SerializeField] protected SoundManager sound;
 
     protected Rigidbody2D body;
 
@@ -45,6 +46,7 @@ public abstract class Character : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         if (hud != null) SetHUD(hud);
+        if (sound == null) sound = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     protected void GroundCheck()
@@ -89,6 +91,7 @@ public abstract class Character : MonoBehaviour
         {
             lastJumpTime = Time.time;
             body.velocity = new Vector2(body.velocity.x, jumpSpeed);
+            sound.PlayJump();
             if (isGrounded)
             {
                 doubleJumpsRemaining = doubleJumpsCount;
@@ -111,6 +114,7 @@ public abstract class Character : MonoBehaviour
         {
             AnimateAttack();
             attackObject.StartAttack();
+            sound.PlayWeaponSwing();
         }
         
     }
@@ -118,6 +122,7 @@ public abstract class Character : MonoBehaviour
     public virtual void AirAttack()
     {
         //AnimateJump();
+        sound.PlayWeaponSwing();
         attackObject.isAttacking = true;
         StartCoroutine(Slam());
     }
@@ -146,6 +151,7 @@ public abstract class Character : MonoBehaviour
             }
         }
         lastJumpTime = Time.time;
+        sound.PlaySlam();
         yield return new WaitForSeconds(jumpCooldown);
         attackObject.isAttacking = false;
     }
@@ -155,6 +161,7 @@ public abstract class Character : MonoBehaviour
         if (attackObject.isAttacking || !canMove) return;
         if (Time.time > lastBlockTime + blockCooldown)
         {
+            if (!isBlocking) sound.PlayBlock();
             isBlocking = true;
             AnimateStay();
         }
@@ -169,15 +176,24 @@ public abstract class Character : MonoBehaviour
     {
         if (!isBlocking) return;
         isBlocking = false;
+        sound.PlayBlock();
         AnimateStay();
     }
 
     
     public void TakeDamage(float damage)
     {
-        if (!isBlocking) health -= damage;
+        if (!isBlocking)
+        {
+            health -= damage;
+            sound.PlayDamage();
+            AnimateHurt();
+        }
+        else
+        {
+            sound.PlayBlockedDamage();
+        }
         lastBlockTime = Time.time;
-        AnimateHurt();
         UpdateHUD();
         if (health <=0)
         {
@@ -202,6 +218,8 @@ public abstract class Character : MonoBehaviour
         capsuleCollider2D.size = new Vector2(0.8f, 0.2f);
         capsuleCollider2D.direction = CapsuleDirection2D.Horizontal;
         capsuleCollider2D.offset = Vector2.up/5;
+        sound.StopMusic();
+        sound.PlayDeath();
         Destroy(gameObject, 5);
     }
 
