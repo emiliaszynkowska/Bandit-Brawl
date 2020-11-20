@@ -17,7 +17,7 @@ public class PlayerTutorial : MonoBehaviour
     public float jumpCooldown;
     public Attack attackObject;
     public Image fadeImage;
-    public Canvas HUD;
+    public TutorialController tutorialController;
     
     //protected variables
     protected float lastJumpTime;
@@ -83,7 +83,7 @@ public class PlayerTutorial : MonoBehaviour
             Attack();
     }
     
-    protected void LoadCharacter()//call in the Start function
+    protected void LoadCharacter() //call in the Start function
     {
         doubleJumpsRemaining = doubleJumpsCount;
         body = GetComponent<Rigidbody2D>();
@@ -151,12 +151,6 @@ public class PlayerTutorial : MonoBehaviour
         attackObject.StartAttack();
     }
 
-    public void TakeKnockback(Vector3 source, float strength)
-    {
-        Vector3 direction = transform.position - source;
-        body.AddForce((direction.normalized + Vector3.up/5) * strength, ForceMode2D.Impulse);
-    }
-
     protected virtual void AnimateGrounded()
     {
         if (attackObject.isAttacking) return;
@@ -176,18 +170,32 @@ public class PlayerTutorial : MonoBehaviour
         animator.SetBool("Grounded", true);
     }
 
-    protected virtual void AnimateHurt()
-    {
-        if (attackObject.isAttacking) return;
-        animator.SetBool("Hurt", true);
-        animator.SetBool("Grounded", true);
-    }
-    
     IEnumerator FadeIn()
     {
         fadeImage.color = Color.black;
         fadeImage.canvasRenderer.SetAlpha(1.0f);
         fadeImage.CrossFadeAlpha(0.0f, 1, false);
         yield return new WaitForSeconds(2);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Ring 1"))
+        {
+            other.gameObject.SetActive(false);
+            tutorialController.SetComplete(1);
+        }
+        else if (other.gameObject.name.Equals("Ring 2"))
+        {
+            other.gameObject.SetActive(false);
+            tutorialController.SetComplete(2);
+            tutorialController.LearnJump();
+        }
+        else if (other.gameObject.name.Equals("Ring 3"))
+        {
+            other.gameObject.SetActive(false);
+            tutorialController.SetComplete(3);
+            tutorialController.LearnAttack();
+        }
     }
 }

@@ -19,8 +19,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip block;
     public AudioClip death;
 
-
-
     // Start is called before the first frame update
     void Start()
     {

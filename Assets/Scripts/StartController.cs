@@ -80,7 +80,7 @@ public class StartController : MonoBehaviour
         fadeImage.canvasRenderer.SetAlpha(0.0f);
         fadeImage.CrossFadeAlpha(1.0f, 1, false);
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene(1);
     }
     
     IEnumerator Level()
@@ -89,7 +89,7 @@ public class StartController : MonoBehaviour
         fadeImage.canvasRenderer.SetAlpha(0.0f);
         fadeImage.CrossFadeAlpha(1.0f, 1, false);
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("Level");
+        SceneManager.LoadScene(2);
     }
     
     IEnumerator FadeIn()

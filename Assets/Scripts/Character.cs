@@ -9,7 +9,6 @@ public abstract class Character : MonoBehaviour
     protected const float groundDistance = 0.6f;
     protected const int doubleJumpsCount = 1;
 
-
     //public variables
     public float health = 100;
     public float maxHealth = 100;
@@ -45,13 +44,13 @@ public abstract class Character : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        if (hud != null) SetHUD(hud);
-        if (sound == null) sound = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        SetHUD(hud);
+        sound = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     protected void GroundCheck()
     {
-        if (Time.time < lastJumpTime + jumpCooldown ) return; ;
+        if (Time.time < lastJumpTime + jumpCooldown ) return;
         isGrounded = Physics2D.Raycast(body.position, Vector2.down, groundDistance, collisionMask);
         Debug.DrawRay(body.position, Vector3.down * groundDistance, Color.green, 0);
         if (isGrounded)
