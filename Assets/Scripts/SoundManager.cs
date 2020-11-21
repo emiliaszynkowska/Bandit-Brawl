@@ -11,6 +11,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip buttonHover;
     public AudioClip buttonClick;
 
+    public AudioClip ring;
+    public AudioClip complete;
     public AudioClip weaponSwing;
     public AudioClip jump;
     public AudioClip damage;
@@ -18,6 +20,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip slam;
     public AudioClip block;
     public AudioClip death;
+    public AudioClip win;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +55,10 @@ public class SoundManager : MonoBehaviour
         audioSource.PlayOneShot(buttonClick);
     }
 
+    public void PlayRing()
+    {
+        audioSource.PlayOneShot(ring);
+    }
 
     public void PlayWeaponSwing()
     {
@@ -86,5 +93,10 @@ public class SoundManager : MonoBehaviour
     public void PlayDeath()
     {
         audioSource.PlayOneShot(death);
+    }
+
+    public void PlayWin()
+    {
+        audioSource.PlayOneShot(win);
     }
 }

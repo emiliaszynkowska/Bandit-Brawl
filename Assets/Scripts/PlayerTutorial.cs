@@ -15,19 +15,30 @@ public class PlayerTutorial : MonoBehaviour
     public float maxCharacterSpeed = 5;
     public float jumpSpeed;
     public float jumpCooldown;
+    public float blockCooldown = 3;
     public Attack attackObject;
     public Image fadeImage;
+    public GameObject slamParticles;
     public TutorialController tutorialController;
-    
+    public int dummiesHit;
+    public int dummiesBlocked;
+
     //protected variables
     protected float lastJumpTime;
+    protected float lastBlockTime = -10;
+    protected float lastBlockDummyTime = -10;
     protected SpriteRenderer sprite;
     protected bool isGrounded = true;
+    protected bool isBlocking = false;
     protected bool canMove = true;
     [SerializeField] protected LayerMask collisionMask;
     protected int doubleJumpsRemaining;
     protected Animator animator;
     protected Rigidbody2D body;
+    protected Vector2 slamSize = new Vector2(4, 2);
+    protected float slamKnockback = 15;
+    protected float slamDamage = 5f;
+    [SerializeField] protected SoundManager sound;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +47,14 @@ public class PlayerTutorial : MonoBehaviour
         LoadCharacter();
     }
 
+    protected void LoadCharacter() //call in the Start function
+    {
+        doubleJumpsRemaining = doubleJumpsCount;
+        body = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        sound = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -43,6 +62,7 @@ public class PlayerTutorial : MonoBehaviour
         GroundCheck();
         PlayerJump();
         PlayerAttack();
+        PlayerBlock();
     }
 
     // FixedUpdate is called for physics
@@ -83,17 +103,17 @@ public class PlayerTutorial : MonoBehaviour
             Attack();
     }
     
-    protected void LoadCharacter() //call in the Start function
+    void PlayerBlock()
     {
-        doubleJumpsRemaining = doubleJumpsCount;
-        body = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        if (Input.GetButton("Fire2"))
+            StartBlock();
+        else
+            EndBlock();
     }
-    
+
     protected void GroundCheck()
     {
-        if (Time.time < lastJumpTime + jumpCooldown || attackObject.isAttacking) return;
+        if (Time.time < lastJumpTime + jumpCooldown ) return;
         isGrounded = Physics2D.Raycast(body.position, Vector2.down, groundDistance, collisionMask);
         Debug.DrawRay(body.position, Vector3.down * groundDistance, Color.green, 0);
         if (isGrounded)
@@ -133,6 +153,7 @@ public class PlayerTutorial : MonoBehaviour
         {
             lastJumpTime = Time.time;
             body.velocity = new Vector2(body.velocity.x, jumpSpeed);
+            sound.PlayJump();
             if (isGrounded)
             {
                 doubleJumpsRemaining = doubleJumpsCount;
@@ -146,9 +167,126 @@ public class PlayerTutorial : MonoBehaviour
 
     public virtual void Attack()
     {
+        if (attackObject.isAttacking || !canMove || isBlocking) return;
+        if (!isGrounded && body.velocity.y < 0)
+        {
+            AirAttack();
+        }
+        else
+        {
+            AnimateAttack();
+            attackObject.StartAttack();
+            sound.PlayWeaponSwing();
+        }
+    }
+    
+    public virtual void AirAttack()
+    {
+        sound.PlayWeaponSwing();
+        attackObject.isAttacking = true;
+        StartCoroutine(Slam());
+    }
+    
+    IEnumerator Slam()
+    {
+        while (!isGrounded)
+        {
+            body.velocity = new Vector2(0, -jumpSpeed*1.5f);
+            yield return null;
+        }
+        Instantiate(slamParticles, transform);
+        Collider2D[] results = new Collider2D[8];
+        results = Physics2D.OverlapBoxAll(transform.position,slamSize,0);
+        foreach (Collider2D col in results)
+        {
+            if (col != null && col.gameObject.name.Equals("Dummy B"))
+            {
+                dummiesHit++;
+                switch (dummiesHit)
+                {
+                    case(4):
+                        tutorialController.DummyDamage("B");
+                        tutorialController.SetComplete(1);
+                        break;
+                    case(5):
+                        tutorialController.DummyDamage("B");
+                        tutorialController.SetComplete(2);
+                        break;
+                    case(6):
+                        tutorialController.DummyDamage("B");
+                        tutorialController.SetComplete(3);
+                        tutorialController.LearnBlock();
+                        break;
+                }
+                break;
+            }
+        }
+        lastJumpTime = Time.time;
+        sound.PlaySlam();
+        yield return new WaitForSeconds(jumpCooldown);
+        attackObject.isAttacking = false;
+    }
+    
+    public virtual void StartBlock()
+    {
         if (attackObject.isAttacking || !canMove) return;
-        AnimateAttack();
-        attackObject.StartAttack();
+        if (Time.time > lastBlockTime + blockCooldown)
+        { 
+            if (!isBlocking) sound.PlayBlock();
+            isBlocking = true;
+            AnimateStay();
+            if (Time.time > lastBlockDummyTime + blockCooldown)
+            {
+                lastBlockDummyTime = Time.time;
+                dummiesBlocked++;
+                switch (dummiesBlocked)
+                {
+                    case(1):
+                        tutorialController.SetComplete(1);
+                        break;
+                    case(2):
+                        tutorialController.SetComplete(2);
+                        break;
+                    case(3):
+                        tutorialController.SetComplete(3);
+                        tutorialController.EndTutorial();
+                        break;
+                }
+            }
+        }
+        else
+        {
+            isBlocking = false;
+        }
+
+    }
+
+    public virtual void EndBlock()
+    {
+        if (!isBlocking) return;
+        isBlocking = false;
+        sound.PlayBlock();
+        AnimateStay();
+    }
+    
+    public void TakeDamage(float damage)
+    {
+        if (!isBlocking)
+        {
+            sound.PlayDamage();
+            AnimateHurt();
+        }
+        else
+        {
+            sound.PlayBlockedDamage();
+        }
+        lastBlockTime = Time.time;
+    }
+    
+    public void TakeKnockback(Vector3 source, float strength)
+    {
+        Vector3 direction = transform.position - source;
+        body.AddForce((direction.normalized + Vector3.up/5) * strength, ForceMode2D.Impulse);
     }
 
     protected virtual void AnimateGrounded()
@@ -167,6 +305,23 @@ public class PlayerTutorial : MonoBehaviour
     {
         if (attackObject.isAttacking) return;
         animator.SetBool("Attack", true);
+        animator.SetBool("Grounded", true);
+    }
+    
+    protected virtual void AnimateStay()
+    {
+        animator.SetInteger("AnimState", 0);
+        if (isBlocking)
+        {
+            animator.SetInteger("AnimState", 1);
+            animator.SetBool("Grounded", true);
+        }
+    }
+    
+    protected virtual void AnimateHurt()
+    {
+        if (attackObject.isAttacking) return;
+        animator.SetBool("Hurt", true);
         animator.SetBool("Grounded", true);
     }
 
@@ -198,4 +353,5 @@ public class PlayerTutorial : MonoBehaviour
             tutorialController.LearnAttack();
         }
     }
+    
 }

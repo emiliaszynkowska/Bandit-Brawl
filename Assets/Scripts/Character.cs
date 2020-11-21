@@ -115,12 +115,10 @@ public abstract class Character : MonoBehaviour
             attackObject.StartAttack();
             sound.PlayWeaponSwing();
         }
-        
     }
 
     public virtual void AirAttack()
     {
-        //AnimateJump();
         sound.PlayWeaponSwing();
         attackObject.isAttacking = true;
         StartCoroutine(Slam());
@@ -133,7 +131,6 @@ public abstract class Character : MonoBehaviour
             body.velocity = new Vector2(0, -jumpSpeed*1.5f);
             yield return null;
         }
-        yield return null;
         Instantiate(slamParticles, transform);
         Collider2D[] results = new Collider2D[8];
         results = Physics2D.OverlapBoxAll(transform.position,slamSize,0);
@@ -179,7 +176,6 @@ public abstract class Character : MonoBehaviour
         AnimateStay();
     }
 
-    
     public void TakeDamage(float damage)
     {
         if (!isBlocking)
@@ -232,7 +228,6 @@ public abstract class Character : MonoBehaviour
     {
         if (attackObject.isAttacking) return;
         animator.SetBool("Grounded", false);
-        //animator.SetBool("Jump", true);
     }
 
     protected virtual void AnimateAttack()

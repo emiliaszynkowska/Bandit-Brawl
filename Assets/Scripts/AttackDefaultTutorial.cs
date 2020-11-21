@@ -11,7 +11,6 @@ public class AttackDefaultTutorial : Attack
     
     Collider2D attackCollider;
     PlayerTutorial parent;
-    private int dummiesHit = 0;
 
     void Start()
     {
@@ -38,10 +37,10 @@ public class AttackDefaultTutorial : Attack
         attackCollider.OverlapCollider(contactFilter, results);
         foreach (Collider2D col in results)
         {
-            if (col != null && (col.gameObject.name.Equals("Dummy A") || col.gameObject.name.Equals("Dummy B")))
+            if (col != null && col.gameObject.name.Equals("Dummy A"))
             {
-                dummiesHit++;
-                switch (dummiesHit)
+                parent.dummiesHit++;
+                switch (parent.dummiesHit)
                 {
                     case(1):
                         parent.tutorialController.DummyDamage("A");
@@ -55,19 +54,6 @@ public class AttackDefaultTutorial : Attack
                         parent.tutorialController.DummyDamage("A");
                         parent.tutorialController.SetComplete(3);
                         parent.tutorialController.LearnSlam();
-                        break;
-                    case(4):
-                        parent.tutorialController.DummyDamage("B");
-                        parent.tutorialController.SetComplete(1);
-                        break;
-                    case(5):
-                        parent.tutorialController.DummyDamage("B");
-                        parent.tutorialController.SetComplete(2);
-                        break;
-                    case(6):
-                        parent.tutorialController.DummyDamage("B");
-                        parent.tutorialController.SetComplete(3);
-                        parent.tutorialController.LearnBlock();
                         break;
                 }
                 break;

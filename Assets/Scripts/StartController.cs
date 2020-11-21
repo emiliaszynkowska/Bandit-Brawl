@@ -23,6 +23,7 @@ public class StartController : MonoBehaviour
         homeButton.onClick.AddListener(HideMenu);
         tutorialButton.onClick.AddListener(LoadTutorial);
         levelButton.onClick.AddListener(LoadLevel);
+        HideMenu();
     }
 
     IEnumerator Flicker()

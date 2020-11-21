@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 88376960663731268}
   - component: {fileID: 1484304525313702822}
   - component: {fileID: 5762332663147019296}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ParticleSlam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ ParticleSystem:
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
+  useRigidbodyForVelocity: 0
   startDelay:
     serializedVersion: 2
     minMaxState: 0
