@@ -20,6 +20,7 @@ public abstract class Character : MonoBehaviour
     public Attack attackObject;
     public HUD hud;
     public GameObject slamParticles;
+    public bool canMove = true;
 
     //protected variables
     protected float lastJumpTime = -10;
@@ -27,7 +28,6 @@ public abstract class Character : MonoBehaviour
     protected SpriteRenderer sprite;
     protected bool isGrounded = true;
     protected bool isBlocking = false;
-    protected bool canMove = true;
     [SerializeField] protected LayerMask collisionMask;
     protected int doubleJumpsRemaining;
     protected Animator animator;
@@ -213,8 +213,6 @@ public abstract class Character : MonoBehaviour
         capsuleCollider2D.size = new Vector2(0.8f, 0.2f);
         capsuleCollider2D.direction = CapsuleDirection2D.Horizontal;
         capsuleCollider2D.offset = Vector2.up/5;
-        sound.StopMusic();
-        sound.PlayDeath();
         Destroy(gameObject, 5);
     }
 

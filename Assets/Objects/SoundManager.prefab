@@ -44,17 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5952aed56643f9d4a8988c101c466fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 3141946790186139494}
   music: {fileID: 8300000, guid: f480091c3c59e4f49a590777b7d70f20, type: 3}
   buttonHover: {fileID: 8300000, guid: 0e6d4d48fef8bd34f9a18cc6b7ed156c, type: 3}
   buttonClick: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
+  ring: {fileID: 8300000, guid: dbb8e80f35c8c7b41a45c8a49bf0557b, type: 3}
+  complete: {fileID: 8300000, guid: a7ec74f24da655143ad3287b5e6122e6, type: 3}
   weaponSwing: {fileID: 8300000, guid: f17ddb6e084e516408d546c48ada92cb, type: 3}
   jump: {fileID: 8300000, guid: 7ff3a505edab208429d020b07875fd66, type: 3}
   damage: {fileID: 8300000, guid: 8aa6e3a8e5015664087316fb96e73d11, type: 3}
   blockedDamage: {fileID: 8300000, guid: 9b123cbf39320f2469e67e80179159ec, type: 3}
   slam: {fileID: 8300000, guid: 69b4995becc18b841ae62e6eb8f5024e, type: 3}
-  block: {fileID: 8300000, guid: 8aa6e3a8e5015664087316fb96e73d11, type: 3}
+  block: {fileID: 8300000, guid: 083a3afcc5f8a4a408ca9a1ca041863a, type: 3}
   death: {fileID: 8300000, guid: d605f9d7d53fd784b94eaa1888bf9936, type: 3}
+  win: {fileID: 8300000, guid: f4d7e6f7a9a5dc94cae95f025ffc81e1, type: 3}
 --- !u!82 &3141946790186139494
 AudioSource:
   m_ObjectHideFlags: 0

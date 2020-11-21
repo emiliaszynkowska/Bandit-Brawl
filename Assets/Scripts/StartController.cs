@@ -22,7 +22,6 @@ public class StartController : MonoBehaviour
         startButton.onClick.AddListener(ShowMenu);
         homeButton.onClick.AddListener(HideMenu);
         tutorialButton.onClick.AddListener(LoadTutorial);
-        levelButton.onClick.AddListener(LoadLevel);
         HideMenu();
     }
 
@@ -70,9 +69,9 @@ public class StartController : MonoBehaviour
         StartCoroutine("Tutorial");
     }
 
-    void LoadLevel()
+    public void LoadLevel(int level)
     {
-        StartCoroutine("Level");
+        StartCoroutine(Level("Level"+level));
     }
     
     IEnumerator Tutorial()
@@ -84,13 +83,13 @@ public class StartController : MonoBehaviour
         SceneManager.LoadScene(1);
     }
     
-    IEnumerator Level()
+    IEnumerator Level(string level)
     {
         fadeImage.color = Color.black;
         fadeImage.canvasRenderer.SetAlpha(0.0f);
         fadeImage.CrossFadeAlpha(1.0f, 1, false);
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(level);
     }
     
     IEnumerator FadeIn()
@@ -99,6 +98,12 @@ public class StartController : MonoBehaviour
         fadeImage.canvasRenderer.SetAlpha(1.0f);
         fadeImage.CrossFadeAlpha(0.0f, 1, false);
         yield return new WaitForSeconds(2);
+    }
+
+    public void ClearProgress()
+    {
+        GameData.SaveLevel(1);
+        SceneManager.LoadScene("Start");
     }
     
 }

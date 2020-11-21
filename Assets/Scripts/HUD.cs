@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HUD : MonoBehaviour
 {
     public Image healthbar;
     public GameObject lowHealth;
     public Image fadeImage;
+    public TextMeshProUGUI text;
     float current;
     float max;
 
@@ -28,6 +30,7 @@ public class HUD : MonoBehaviour
     {
         current = newhealth;
         float percentage = current / max;
+        text.text = current + "/" + max;
         healthbar.fillAmount = percentage;
         if (percentage <= 0.25)
         {

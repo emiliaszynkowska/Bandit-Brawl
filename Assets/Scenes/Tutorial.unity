@@ -2769,21 +2769,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
-      propertyPath: win
-      value: 
-      objectReference: {fileID: 8300000, guid: f4d7e6f7a9a5dc94cae95f025ffc81e1, type: 3}
-    - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
-      propertyPath: ring
-      value: 
-      objectReference: {fileID: 8300000, guid: dbb8e80f35c8c7b41a45c8a49bf0557b, type: 3}
-    - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
       propertyPath: music
       value: 
       objectReference: {fileID: 8300000, guid: a72be6dbb33ae1d48b44895f4943bee6, type: 3}
-    - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
-      propertyPath: complete
-      value: 
-      objectReference: {fileID: 8300000, guid: a7ec74f24da655143ad3287b5e6122e6, type: 3}
     - target: {fileID: 3141946790186139494, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
       propertyPath: m_audioClip
       value: 
