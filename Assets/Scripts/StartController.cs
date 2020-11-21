@@ -102,7 +102,7 @@ public class StartController : MonoBehaviour
 
     public void ClearProgress()
     {
-        GameData.SaveLevel(1);
+        GameData.ClearLevel();
         SceneManager.LoadScene("Start");
     }
     

@@ -27,7 +27,7 @@ public class AttackDefault : Attack
     public override bool CanAttack()
     {
         Collider2D[] results = new Collider2D[8];
-        return attackCollider.OverlapCollider(contactFilter, results) > 0;
+        return attackCollider.OverlapCollider(contactFilter, results) > 1;
     }
 
     IEnumerator DoAttack()

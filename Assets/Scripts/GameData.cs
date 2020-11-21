@@ -25,4 +25,10 @@ public static class GameData
 
         }
     }
+
+    public static void ClearLevel()
+    {
+        PlayerPrefs.SetInt("Level", 1);
+        levelUnlocked = 1;
+    }
 }

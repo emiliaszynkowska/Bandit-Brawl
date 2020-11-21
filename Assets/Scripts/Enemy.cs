@@ -10,20 +10,24 @@ public class Enemy : Character
     private float lastAttackTime = 10;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         LoadCharacter();
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         GroundCheck();
-        EnemyMove();
         EnemyAttack();
     }
 
-    void EnemyMove()
+    protected void FixedUpdate()
+    {
+        EnemyMove();
+    }
+
+    protected void EnemyMove()
     {
         if (!attackObject.isAttacking)
         {
@@ -33,15 +37,18 @@ public class Enemy : Character
                 MoveRight();
             else if (playerposX - enemyposX < -2)
                 MoveLeft();
-            else 
+            else
+            {
+                AnimateStay();
                 StartBlock();
+            }
         }
     }
     
-    void EnemyAttack()
+    protected void EnemyAttack()
     {
         if (Time.time < lastAttackTime + attackCooldown ) return;
-        if (!attackObject.isAttacking && player.transform.position.magnitude - body.position.magnitude <= 2)
+        if (!attackObject.isAttacking && (player.transform.position - transform.position).magnitude <= 2)
         {
             EndBlock();
             Attack();

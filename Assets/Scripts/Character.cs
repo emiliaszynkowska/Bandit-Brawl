@@ -189,12 +189,12 @@ public abstract class Character : MonoBehaviour
             sound.PlayBlockedDamage();
         }
         lastBlockTime = Time.time;
-        UpdateHUD();
         if (health <=0)
         {
             health = 0;
             Death();
         }
+        UpdateHUD();
         Debug.Log(name + " has "+health+" health");
     }
 

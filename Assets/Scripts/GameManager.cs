@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
         sound = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         player = GameObject.Find("Player").GetComponent<Player>();
         enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
+        if (enemy==null) enemy = GameObject.Find("Enemy").GetComponent<Enemy2>();
         if (fadeImage != null) StartCoroutine(FadeIn());
         StartCoroutine(StartGame());
     }
