@@ -238,20 +238,7 @@ public class PlayerTutorial : MonoBehaviour
             if (Time.time > lastBlockDummyTime + blockCooldown)
             {
                 lastBlockDummyTime = Time.time;
-                dummiesBlocked++;
-                switch (dummiesBlocked)
-                {
-                    case(1):
-                        tutorialController.SetComplete(1);
-                        break;
-                    case(2):
-                        tutorialController.SetComplete(2);
-                        break;
-                    case(3):
-                        tutorialController.SetComplete(3);
-                        tutorialController.EndTutorial();
-                        break;
-                }
+                
             }
         }
         else
@@ -279,6 +266,20 @@ public class PlayerTutorial : MonoBehaviour
         else
         {
             sound.PlayBlockedDamage();
+            dummiesBlocked++;
+            switch (dummiesBlocked)
+            {
+                case (1):
+                    tutorialController.SetComplete(1);
+                    break;
+                case (2):
+                    tutorialController.SetComplete(2);
+                    break;
+                case (3):
+                    tutorialController.SetComplete(3);
+                    tutorialController.EndTutorial();
+                    break;
+            }
         }
         lastBlockTime = Time.time;
     }

@@ -45,15 +45,15 @@ public class DummyAttack : MonoBehaviour
     void Slam()
     { 
         body.velocity = new Vector2(0, -jumpSpeed*1.5f);
-        Instantiate(slamParticles, transform);
+        Instantiate(slamParticles,transform);
         Collider2D[] results = new Collider2D[8];
         results = Physics2D.OverlapBoxAll(transform.position,slamSize,0);
         foreach (Collider2D col in results)
         {
             if (col != null)
             {
-                Character c = col.gameObject.GetComponent<Character>();
-                if (c != null && !c.Equals(this))
+                PlayerTutorial c = col.gameObject.GetComponent<PlayerTutorial>();
+                if (c != null)
                 {
                     c.TakeKnockback(transform.position, slamKnockback);
                     c.TakeDamage(0);

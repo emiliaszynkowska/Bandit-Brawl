@@ -37,7 +37,7 @@ public class TutorialController : MonoBehaviour
         StartCoroutine("FadeIn");
         startButton.onClick.AddListener(LearnMovement);
         homeButton.onClick.AddListener(LoadTitle);
-        returnButton.onClick.AddListener(LoadTitle);
+        returnButton.onClick.AddListener(ReloadTutorial);
         endButton.onClick.AddListener(LoadTitle);
         mouseAnimator = mouse.GetComponent<Animator>();
     }
@@ -139,6 +139,10 @@ public class TutorialController : MonoBehaviour
     {
         StartCoroutine("Title");
     }
+    void ReloadTutorial()
+    {
+        StartCoroutine(Reload());
+    }
 
     public void DummyDamage(string dummy)
     {
@@ -157,7 +161,16 @@ public class TutorialController : MonoBehaviour
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(0);
     }
-    
+
+    IEnumerator Reload()
+    {
+        fadeImage.color = Color.black;
+        fadeImage.canvasRenderer.SetAlpha(0.0f);
+        fadeImage.CrossFadeAlpha(1.0f, 1, false);
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     IEnumerator FadeIn()
     {
         fadeImage.color = Color.black;
