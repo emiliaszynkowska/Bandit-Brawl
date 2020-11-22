@@ -105,5 +105,10 @@ public class StartController : MonoBehaviour
         GameData.ClearLevel();
         SceneManager.LoadScene("Start");
     }
-    
+
+    public void Quit()
+    {
+        Debug.Log("Quit Game");
+        Application.Quit();
+    }
 }
