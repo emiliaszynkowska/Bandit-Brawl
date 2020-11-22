@@ -81,7 +81,7 @@ public class Player : Character
 
     void LowHealthCheck()
     {
-        if (health <= 20)
+        if (health <= 25)
             if (hud != null)
                 hud.LowHealth();
     }

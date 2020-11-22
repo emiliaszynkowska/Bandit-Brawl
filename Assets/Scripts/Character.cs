@@ -16,7 +16,7 @@ public abstract class Character : MonoBehaviour
     public float maxCharacterSpeed = 5;
     public float jumpSpeed = 14;
     public float jumpCooldown = 0.3f;
-    public float blockCooldown = 3;
+    public float blockCooldown = 1;
     public Attack attackObject;
     public HUD hud;
     public GameObject slamParticles;
@@ -36,7 +36,7 @@ public abstract class Character : MonoBehaviour
     protected float slamDamage = 5f;
     [SerializeField] protected SoundManager sound;
 
-    protected Rigidbody2D body;
+    [HideInInspector]public Rigidbody2D body;
 
     protected void LoadCharacter()//call in the Start function
     {
@@ -187,8 +187,9 @@ public abstract class Character : MonoBehaviour
         else
         {
             sound.PlayBlockedDamage();
+            lastBlockTime = Time.time;
+            EndBlock();
         }
-        lastBlockTime = Time.time;
         if (health <=0)
         {
             health = 0;

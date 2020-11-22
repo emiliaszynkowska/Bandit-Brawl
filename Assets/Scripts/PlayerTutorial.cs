@@ -129,7 +129,7 @@ public class PlayerTutorial : MonoBehaviour
 
     protected void MoveLeft()
     {
-        if (attackObject.isAttacking || !canMove) return;
+        if (attackObject.isAttacking || !canMove || isBlocking) return;
         if (body.velocity.x > -maxCharacterSpeed) body.velocity = new Vector2(-moveSpeed+body.velocity.x, body.velocity.y);
         if (body.velocity.x < -maxCharacterSpeed) body.velocity = new Vector2(-maxCharacterSpeed, body.velocity.y);
         sprite.flipX = false;
@@ -139,7 +139,7 @@ public class PlayerTutorial : MonoBehaviour
 
     protected void MoveRight()
     {
-        if (attackObject.isAttacking || !canMove) return;
+        if (attackObject.isAttacking || !canMove || isBlocking) return;
         if (body.velocity.x < maxCharacterSpeed) body.velocity = new Vector2(moveSpeed+body.velocity.x, body.velocity.y);
         if (body.velocity.x > maxCharacterSpeed) body.velocity = new Vector2(maxCharacterSpeed, body.velocity.y);
         sprite.flipX = true;

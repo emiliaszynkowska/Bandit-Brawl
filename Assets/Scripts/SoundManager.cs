@@ -21,6 +21,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip block;
     public AudioClip death;
     public AudioClip win;
+    public AudioClip fire;
+
 
 
     // Start is called before the first frame update
@@ -99,5 +101,10 @@ public class SoundManager : MonoBehaviour
     public void PlayWin()
     {
         audioSource.PlayOneShot(win);
+    }
+
+    public void PlayFire()
+    {
+        audioSource.PlayOneShot(fire);
     }
 }
