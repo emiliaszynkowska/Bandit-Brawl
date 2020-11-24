@@ -671,7 +671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &217417255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1614,7 +1614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &654473320
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1746,7 +1746,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &743643583
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1855,6 +1855,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
+      propertyPath: fight
+      value: 
+      objectReference: {fileID: 8300000, guid: bdafaea82c21f0049a6a41dae3e61795, type: 3}
     - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
       propertyPath: music
       value: 
@@ -3729,7 +3733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7015271093282608641
 RectTransform:
   m_ObjectHideFlags: 0

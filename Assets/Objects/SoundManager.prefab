@@ -59,7 +59,6 @@ MonoBehaviour:
   death: {fileID: 8300000, guid: d605f9d7d53fd784b94eaa1888bf9936, type: 3}
   win: {fileID: 8300000, guid: f4d7e6f7a9a5dc94cae95f025ffc81e1, type: 3}
   fire: {fileID: 8300000, guid: 5748e5e84ef02dd4cb5b49b3a9c70635, type: 3}
-  fight: {fileID: 8300000, guid: bdafaea82c21f0049a6a41dae3e61795, type: 3}
 --- !u!82 &3141946790186139494
 AudioSource:
   m_ObjectHideFlags: 0

@@ -2494,12 +2494,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 76a90e58ae50195448ac8d62a8b82bb7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b8657fe1ee4ab734c910b161488d1cfd, type: 3}
   m_Color: {r: 0.7311321, g: 1, b: 0.94739795, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.26, y: 3.84}
+  m_Size: {x: 6.4, y: 3.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
@@ -19238,6 +19238,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
+      propertyPath: fight
+      value: 
+      objectReference: {fileID: 8300000, guid: bdafaea82c21f0049a6a41dae3e61795, type: 3}
     - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
       propertyPath: music
       value: 

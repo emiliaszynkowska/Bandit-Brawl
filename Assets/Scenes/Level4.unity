@@ -19481,6 +19481,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
+      propertyPath: fight
+      value: 
+      objectReference: {fileID: 8300000, guid: bdafaea82c21f0049a6a41dae3e61795, type: 3}
+    - target: {fileID: 3141946790186139493, guid: f89daadf4b932f14a9aa54fbaa35bd01, type: 3}
       propertyPath: music
       value: 
       objectReference: {fileID: 8300000, guid: ff94d5cc0af7b4146894c4850047c72e, type: 3}
