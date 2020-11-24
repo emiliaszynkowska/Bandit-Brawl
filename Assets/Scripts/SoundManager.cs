@@ -22,10 +22,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip death;
     public AudioClip win;
     public AudioClip fire;
-
-
-
-    // Start is called before the first frame update
+    public AudioClip fight;
+    
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -41,6 +39,11 @@ public class SoundManager : MonoBehaviour
     public void StopMusic()
     {
         audioSource.Stop();
+    }
+
+    public void PlayFight()
+    {
+        audioSource.PlayOneShot(fight);
     }
 
     public void SetVolume(float volume)

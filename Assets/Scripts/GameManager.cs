@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject endScreen;
     public TextMeshProUGUI winText;
     public Image fadeImage;
-    // Start is called before the first frame update
+    
     void Start()
     {
         sound = GameObject.Find("SoundManager").GetComponent<SoundManager>();
@@ -24,16 +24,21 @@ public class GameManager : MonoBehaviour
         GameObject enemyObject = GameObject.Find("Enemy");
         enemy = enemyObject.GetComponent<Enemy>();
         if (enemy==null) enemy = enemyObject.GetComponent<Enemy2>();
+        player.canMove = false; enemy.canMove = false;
         if (fadeImage != null) StartCoroutine(FadeIn());
-        StartCoroutine(StartGame());
+        if (currentLevel != 1)
+            StartGame();
     }
 
-    IEnumerator StartGame()
+    public void StartGame()
     {
-        player.canMove = false;
-        enemy.canMove = false;
+        StartCoroutine("StartGameCoroutine");
+    }
+    IEnumerator StartGameCoroutine()
+    {
         yield return new WaitForSeconds(1f);
         sound.PlayMusic();
+        sound.PlayFight();
         StartCoroutine(DisplayFightText());
         yield return new WaitForSeconds(1f);
         player.canMove = true;
