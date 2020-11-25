@@ -102,6 +102,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine( Load(SceneManager.GetActiveScene().name));
     }
 
+    public void Next()
+    {
+        StartCoroutine("LoadNext");
+    }
+
+
     IEnumerator Load(string scene)
     {
         fadeImage.color = Color.black;
@@ -109,5 +115,14 @@ public class GameManager : MonoBehaviour
         fadeImage.CrossFadeAlpha(1.0f, 1, false);
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(scene);
+    }
+    
+    IEnumerator LoadNext()
+    {
+        fadeImage.color = Color.black;
+        fadeImage.canvasRenderer.SetAlpha(0.0f);
+        fadeImage.CrossFadeAlpha(1.0f, 1, false);
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
