@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject endScreen;
     public TextMeshProUGUI winText;
     public Image fadeImage;
+    public Button nextButton;
     
     void Start()
     {
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         enemy.canMove = false;
         if (player.health <= 0) //lose
         {
+            if (nextButton!=null) nextButton.interactable = false;
             sound.PlayDeath();
             yield return new WaitForSeconds(1f);
             endScreen.SetActive(true);

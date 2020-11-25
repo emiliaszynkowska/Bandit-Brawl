@@ -235,6 +235,7 @@ MonoBehaviour:
   endScreen: {fileID: 192051370}
   winText: {fileID: 957060344}
   fadeImage: {fileID: 1409873507}
+  nextButton: {fileID: 907792194}
 --- !u!4 &84168323
 Transform:
   m_ObjectHideFlags: 0
